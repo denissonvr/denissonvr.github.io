@@ -99,3 +99,95 @@
     </section>
 </body>
 </html>
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Atividade 01</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+    .container {
+        border: 2px solid #ccc;
+        padding: 30px;
+        width: 600px;
+        text-align: center;
+        border-radius: 10px;
+    }
+    label {
+        display: block;
+        text-align: left;
+        margin-top: 15px;
+    }
+    input {
+        padding: 8px;
+        width: 250px;
+        margin-top: 5px;
+    }
+    .linha {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .btn {
+        background: #0d6efd;
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Atividade 01</h2>
+
+    <div class="linha">
+        <div>
+            <label>Nome Completo:</label>
+            <input type="text" id="nomeCompleto">
+        </div>
+
+        <button class="btn" onclick="separar()">>></button>
+
+        <div>
+            <label>Nome:</label>
+            <input type="text" id="nome">
+
+            <label>Sobrenome:</label>
+            <input type="text" id="sobrenome">
+        </div>
+    </div>
+</div>
+
+<script>
+function separar() {
+    let nomeCompleto = document.getElementById("nomeCompleto").value.trim();
+    
+    // divide o nome completo em partes
+    let partes = nomeCompleto.split(" ");
+
+    // pega o primeiro nome
+    document.getElementById("nome").value = partes[0] || "";
+
+    // junta o resto como sobrenome
+    document.getElementById("sobrenome").value = partes.slice(1).join(" ") || "";
+
+    // limpa o campo nome completo
+    document.getElementById("nomeCompleto").value = "";
+}
+</script>
+
+</body>
+</html>
