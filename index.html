@@ -102,212 +102,90 @@
 
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Formulário de Pré-Matrícula - Dark Mode</title>
-
-<style>
-    body {
-        background: #121212;
-        color: #e6e6e6;
-        font-family: Arial, sans-serif;
-        padding: 20px;
-    }
-
-    h1, h2 {
-        text-align: center;
-        color: #00d4ff;
-        text-shadow: 0px 0px 10px #00d4ff;
-    }
-
-    fieldset {
-        border: 1px solid #00d4ff;
-        padding: 20px;
-        margin-bottom: 20px;
-        background: #1b1b1b;
-        box-shadow: 0 0 15px #00d4ff40;
-    }
-
-    legend {
-        color: #00d4ff;
-        font-size: 18px;
-        padding: 0 10px;
-    }
-
-    label {
-        display: inline-block;
-        width: 150px;
-        margin: 8px 0;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    select {
-        background: #222;
-        border: 1px solid #00d4ff;
-        color: white;
-        padding: 6px;
-        border-radius: 5px;
-        width: 220px;
-    }
-
-    input[type="radio"], input[type="checkbox"] {
-        accent-color: #00d4ff;
-    }
-
-    input::placeholder {
-        color: #bbb;
-    }
-
-    .btns {
-        text-align: center;
-        margin-top: 15px;
-    }
-
-    button {
-        background: #00d4ff;
-        border: none;
-        color: #000;
-        padding: 10px 25px;
-        margin: 10px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        box-shadow: 0 0 12px #00d4ff;
-        transition: 0.2s;
-    }
-
-    button:hover {
-        background: #00a3cc;
-        box-shadow: 0 0 18px #00d4ff;
-    }
-</style>
-
-<script>
-function validarFormulario() {
-
-    let nome = document.getElementById("nome").value.trim();
-    let nascDia = document.getElementById("dia").value;
-    let nascMes = document.getElementById("mes").value;
-    let nascAno = document.getElementById("ano").value;
-    let mae = document.getElementById("mae").value.trim();
-    let pai = document.getElementById("pai").value.trim();
-    let ddd = document.getElementById("ddd").value;
-    let telefone = document.getElementById("telefone").value;
-    let email = document.getElementById("email").value.trim();
-
-    const dddsValidos = [11,12,13,14,15,16,17,18,19,21,22,24,27,28,
-        31,32,33,34,35,37,38,41,42,43,44,45,46,
-        47,48,49,51,53,54,55,61,62,63,64,65,66,
-        67,68,69,71,73,74,75,77,79,81,82,83,84,
-        85,86,87,88,89,91,92,93,94,95,96,97,98,99];
-
-    if (!nome || !mae || !pai || !ddd || !telefone || !email ||
-        !nascDia || !nascMes || !nascAno) {
-        alert("Todos os campos obrigatórios devem ser preenchidos!");
-        return false;
-    }
-
-    // Validar data
-    let data = nascAno + "-" + nascMes + "-" + nascDia;
-    let dataObj = new Date(data);
-    if (isNaN(dataObj.getTime())) {
-        alert("Digite uma data de nascimento válida!");
-        return false;
-    }
-
-    // Validar e-mail
-    if (!(email.includes("@") && email.includes("."))) {
-        alert("E-mail inválido!");
-        return false;
-    }
-
-    // Validar DDD
-    if (!dddsValidos.includes(parseInt(ddd))) {
-        alert("DDD inválido! Somente DDDs brasileiros.");
-        return false;
-    }
-
-    // Máximo 3 atividades
-    let atividades = document.querySelectorAll("input[name='atividade']:checked");
-    if (atividades.length > 3) {
-        alert("Selecione no máximo 3 atividades extracurriculares!");
-        return false;
-    }
-
-    alert("Cadastro realizado com sucesso!");
-    return true;
-}
-</script>
-
+    <meta charset="UTF-8">
+    <title>Controle de Gastos</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { width: 400px; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #333; }
+        th, td { padding: 8px; text-align: center; }
+        .box { border: 1px solid #555; padding: 20px; width: 450px; }
+    </style>
 </head>
 <body>
 
-<h1>Escola Virtual</h1>
-<h2>Formulário de Pré-Matrícula</h2>
+<h2>Inserir Gastos</h2>
 
-<form onsubmit="return validarFormulario()">
+<div class="box">
+    <label>Categoria:</label>
+    <select id="categoria">
+        <option>Mercado</option>
+        <option>Transporte</option>
+        <option>Outros</option>
+    </select><br><br>
 
-<fieldset>
-    <legend>Dados Pessoais</legend>
+    <label>Valor:</label>
+    <input type="number" id="valor" step="0.01"><br><br>
 
-    <label>Nome do Aluno:</label>
-    <input type="text" id="nome"><br>
+    <label>Data:</label>
+    <input type="date" id="data"><br><br>
 
-    <label>Nascimento:</label>
-    <input type="text" id="dia" size="2" placeholder="dd">
-    <input type="text" id="mes" size="2" placeholder="mm">
-    <input type="text" id="ano" size="4" placeholder="aaaa"><br>
+    <button onclick="adicionar()">Adicionar</button>
+    <button onclick="calcular()">Calcular</button>
 
-    <label>Nome da Mãe:</label>
-    <input type="text" id="mae"><br>
-
-    <label>Nome do Pai:</label>
-    <input type="text" id="pai"><br>
-
-    <label>Telefone:</label>
-    DDD <input type="text" id="ddd" size="3">
-    Tel: <input type="text" id="telefone" size="10">
-    Ramal: <input type="text" size="5"><br>
-
-    <label>E-mail:</label>
-    <input type="email" id="email"><br>
-</fieldset>
-
-<fieldset>
-    <legend>Informações de Matrícula</legend>
-
-    <label>Série:</label>
-    <select>
-        <option>pré-escolar</option>
-        <option>1º ano</option>
-        <option>2º ano</option>
-        <option>3º ano</option>
-    </select><br>
-
-    <label>Turno:</label>
-    <input type="radio" name="turno"> Manhã
-    <input type="radio" name="turno"> Tarde<br><br>
-
-    <label>Atividades Extracurriculares:</label><br>
-
-    <input type="checkbox" name="atividade" value="informatica"> Informática<br>
-    <input type="checkbox" name="atividade" value="musica"> Música<br>
-    <input type="checkbox" name="atividade" value="ballet"> Balé<br>
-    <input type="checkbox" name="atividade" value="pintura"> Pintura<br>
-    <input type="checkbox" name="atividade" value="judo"> Judô<br>
-    <input type="checkbox" name="atividade" value="futebol"> Futebol<br>
-
-</fieldset>
-
-<div class="btns">
-    <button type="submit">Enviar Formulário</button>
-    <button type="reset">Limpar Campos</button>
+    <table id="tabela">
+        <tr>
+            <th>Categoria</th>
+            <th>Data</th>
+            <th>Valor</th>
+        </tr>
+    </table>
 </div>
 
-</form>
+<script>
+    function adicionar() {
+        let cat = document.getElementById("categoria").value;
+        let val = parseFloat(document.getElementById("valor").value);
+        let data = document.getElementById("data").value;
+
+        if (!val || !data) {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        let tabela = document.getElementById("tabela");
+        let linha = tabela.insertRow(-1);
+
+        linha.insertCell(0).innerHTML = cat;
+        linha.insertCell(1).innerHTML = data;
+        linha.insertCell(2).innerHTML = val.toFixed(2);
+
+        salvarLocalStorage();
+    }
+
+    function salvarLocalStorage() {
+        let linhas = document.querySelectorAll("#tabela tr");
+        let dados = [];
+
+        linhas.forEach((linha, index) => {
+            if (index === 0) return; // pular cabeçalho
+            let col = linha.querySelectorAll("td");
+            dados.push({
+                categoria: col[0].innerText,
+                data: col[1].innerText,
+                valor: col[2].innerText
+            });
+        });
+
+        localStorage.setItem("gastos", JSON.stringify(dados));
+    }
+
+    function calcular() {
+        window.location.href = "resumo.html";
+    }
+</script>
 
 </body>
 </html>
